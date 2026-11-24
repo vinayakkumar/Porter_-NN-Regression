@@ -8,12 +8,12 @@ The task is a data-analytics case study: given an order's market, store category
 
 | File | What it is |
 |:--|:--|
-| [`problem_brief.html`](problem_brief.html) | The problem brief: problem statement, data dictionary, process and the 10 questions to answer. |
-| [`gemini-code-1795089251907.html`](gemini-code-1795089251907.html) | The case-study page: 5 stages with 27 tasks (1.1–1.5, 2.1–2.6, 3.1–3.6, 4.1–4.4, 5.1–5.6), each with an objective and hints. |
+| [`problem_statement.html`](problem_statement.html) | The problem brief and the case-study page in one document. Part 1 is the brief: problem statement, data dictionary, process and the 10 questions. Part 2 is the case study: 5 stages with 27 tasks (1.1–1.5, 2.1–2.6, 3.1–3.6, 4.1–4.4, 5.1–5.6), each with an objective and hints. |
 | [`solution.ipynb`](solution.ipynb) | **Main deliverable.** Full solution that follows the brief and the case-study page, with all outputs saved. |
+| [`solution.pdf`](solution.pdf) | PDF copy of `solution.ipynb`. |
 | [`solution_report_style.ipynb`](solution_report_style.ipynb) | An earlier, report-style version of the solution. It has no saved outputs and was not updated with the final changes, so treat `solution.ipynb` as the reference. |
 
-Open the two HTML files in a browser. Open the notebooks in Jupyter or VS Code.
+Open the HTML file in a browser. Open the notebooks in Jupyter or VS Code.
 
 ## How the solution is organised
 
@@ -67,7 +67,6 @@ Running every cell takes about 9 minutes on a laptop. The notebook saves the tra
 
 | Path | What it is |
 |:--|:--|
-| `build/` | Scripts that generate `solution.ipynb` (builder, text readings, output merge, final check). The notebook is generated, so change the builder rather than the notebook JSON. |
 | `models/` | Saved models. `porter_nn.pt` is from earlier work; the `porter_delivery_*` files come from `solution.ipynb`. |
 | `nn_day_1` … `nn_day_12` | Course exercises from the neural-network course. Not part of the case study. |
 | `context.md` | Working log: decisions, changes and open items. |

@@ -16,10 +16,5 @@ __pycache__/
 .vscode/
 .claude/
 
-# Build workspace: keep the scripts, drop scratch material and intermediate copies
-build/scratch/
-build/older_versions/
-build/run*_exec.ipynb
-build/pass3_exec.ipynb
-build/solution_before_*.ipynb
-build/outputs_dump*.txt
+# Build workspace (scripts that generate solution.ipynb, scratch files, backups)
+build/
