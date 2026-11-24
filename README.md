@@ -11,6 +11,7 @@ The task is a data-analytics case study: given an order's market, store category
 | [`problem_statement.html`](problem_statement.html) | The problem brief and the case-study page in one document. Part 1 is the brief: problem statement, data dictionary, process and the 10 questions. Part 2 is the case study: 5 stages with 27 tasks (1.1–1.5, 2.1–2.6, 3.1–3.6, 4.1–4.4, 5.1–5.6), each with an objective and hints. |
 | [`solution.ipynb`](solution.ipynb) | **Main deliverable.** Full solution that follows the brief and the case-study page, with all outputs saved. |
 | [`solution.pdf`](solution.pdf) | PDF copy of `solution.ipynb`. |
+| [`sections/`](sections/) | The same solution split into five notebooks, one per section, for submitting section by section. Outputs are saved from the full run; to re-run the code, use `solution.ipynb`. |
 | [`solution_report_style.ipynb`](solution_report_style.ipynb) | An earlier, report-style version of the solution. It has no saved outputs and was not updated with the final changes, so treat `solution.ipynb` as the reference. |
 
 Open the HTML file in a browser. Open the notebooks in Jupyter or VS Code.
