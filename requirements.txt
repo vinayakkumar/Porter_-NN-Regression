@@ -1,0 +1,24 @@
+# Core / notebooks
+jupyter
+ipykernel
+ipywidgets
+nbformat
+
+# Data and ML
+numpy
+pandas
+scikit-learn
+scikit-image
+matplotlib
+seaborn
+
+# Deep learning
+tensorflow
+torch
+torchvision
+
+# Model interpretability (nn_day_12)
+lime
+
+# Dataset download from Google Drive (used by solution notebooks)
+gdown

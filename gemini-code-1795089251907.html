@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Porter_ NN Regression — Data Analytics Case Study</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .kicker {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1d4ed8;
+      margin-bottom: 0.25rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .print-btn {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 0.65rem 1.15rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .print-btn:hover {
+      background: #1e293b;
+    }
+
+    section {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #1d4ed8;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      color: #0f172a;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-top: 1.4rem;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #0f172a;
+    }
+
+    p {
+      color: #334155;
+      margin-bottom: 0.85rem;
+      font-size: 0.95rem;
+    }
+
+    .objective {
+      background: #eff6ff;
+      border-left: 4px solid #1d4ed8;
+      padding: 0.85rem 1.1rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 1.25rem;
+      font-size: 0.93rem;
+      color: #0f172a;
+    }
+
+    .objective strong {
+      color: #1d4ed8;
+    }
+
+    ul, ol {
+      padding-left: 1.5rem;
+      color: #334155;
+      font-size: 0.94rem;
+    }
+
+    li {
+      margin-bottom: 0.45rem;
+    }
+
+    li > ul, li > ol {
+      margin-top: 0.35rem;
+    }
+
+    code {
+      background: #f1f5f9;
+      padding: 0.12rem 0.38rem;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.86em;
+      color: #0f172a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .task-list {
+      list-style: none;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .task-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.95rem 1.15rem;
+      background: #ffffff;
+      page-break-inside: avoid;
+    }
+
+    .task-title {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.35rem;
+    }
+
+    .task-hint {
+      font-size: 0.87rem;
+      color: #475569;
+      background: #f8fafc;
+      padding: 0.45rem 0.75rem;
+      border-radius: 5px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .meta-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem 1.15rem;
+    }
+
+    .meta-card h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #1d4ed8;
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: #1d4ed8;
+      word-break: break-all;
+    }
+
+    /* Print / Save as PDF Styles */
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .print-btn {
+        display: none;
+      }
+      section, header {
+        border: 1px solid #cbd5e1;
+        box-shadow: none;
+        margin-bottom: 1rem;
+        padding: 1.25rem;
+      }
+      .stage-section {
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="kicker">SCALER · DATA ANALYTICS · CASE STUDY</div>
+        <h1>Porter_ NN Regression</h1>
+      </div>
+      <button class="print-btn" onclick="window.print()">Save / Print as PDF</button>
+    </header>
+
+    <!-- Stages Overview -->
+    <section>
+      <span class="badge">Roadmap</span>
+      <h2>Stages Overview</h2>
+      <ul>
+        <li><strong>Stage 1:</strong> Problem Understanding, Data Import &amp; Structure Analysis</li>
+        <li><strong>Stage 2:</strong> Data Preprocessing &amp; Feature Engineering</li>
+        <li><strong>Stage 3:</strong> Data Visualization, Outlier Detection &amp; Cleaning</li>
+        <li><strong>Stage 4:</strong> Baseline Model with Random Forest</li>
+        <li><strong>Stage 5:</strong> Regression with Neural Networks <em>(Active)</em></li>
+      </ul>
+    </section>
+
+    <!-- Evaluation Summary & Case Study Meta -->
+    <section>
+      <span class="badge">Evaluation &amp; Support</span>
+      <h2>How You're Evaluated &amp; Session Details</h2>
+      <div class="meta-grid">
+        <div class="meta-card">
+          <h4>How You're Evaluated (100 Marks)</h4>
+          <ol>
+            <li>Problem Statement, Data Import &amp; Structure Analysis (10 Marks)</li>
+            <li>Data Preprocessing &amp; Feature Engineering (30 Marks)</li>
+            <li>Data Visualization, Outlier Detection &amp; Cleaning (20 Marks)</li>
+            <li>Model Training with Random Forest (10 Marks)</li>
+            <li>Regression with Neural Networks (30 Marks)</li>
+          </ol>
+        </div>
+        <div class="meta-card">
+          <h4>Included &amp; Schedule</h4>
+          <p><strong>Included:</strong> AI Companion for you</p>
+          <p><strong>Deadline:</strong> 31 June 2026 (Work at your own pace)</p>
+          <p><strong>Progress:</strong> Eight short stages · Progress saves automatically</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem Statement / Problem Brief -->
+    <section>
+      <span class="badge">Problem Brief · Case Study</span>
+      <h2>Porter_ NN Regression — Problem Statement</h2>
+
+      <h3>Problem Statement</h3>
+      <p>Porter is India's Largest Marketplace for Intra-City Logistics. Leader in the country's $40 billion intra-city logistics market, Porter strives to improve the lives of 1,50,000+ driver-partners by providing them with consistent earning &amp; independence. Currently, the company has serviced 5+ million customers</p>
+      <p>Porter works with a wide range of restaurants for delivering their items directly to the people.</p>
+      <p>Porter has a number of delivery partners available for delivering the food, from various restaurants and wants to get an estimated delivery time that it can provide the customers on the basis of what they are ordering, from where and also the delivery partners.</p>
+      <p>This dataset has the required data to train a regression model that will do the delivery time estimation, based on all those features</p>
+
+      <h3>Dataset</h3>
+      <p><a href="https://drive.google.com/file/d/1kkgBGldeswHBgVKEJiqqG7VZvqZNMc-5/view?usp=share_link" target="_blank" rel="noopener noreferrer">https://drive.google.com/file/d/1kkgBGldeswHBgVKEJiqqG7VZvqZNMc-5/view?usp=share_link</a></p>
+
+      <h3>Data Dictionary</h3>
+      <p>Each row in this file corresponds to one unique delivery. Each column corresponds to a feature as explained below</p>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Column Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><code>market_id</code></td><td>integer id for the market where the restaurant lies</td></tr>
+          <tr><td>2</td><td><code>created_at</code></td><td>the timestamp at which the order was placed</td></tr>
+          <tr><td>3</td><td><code>actual_delivery_time</code></td><td>the timestamp when the order was delivered</td></tr>
+          <tr><td>4</td><td><code>store_primary_category</code></td><td>category for the restaurant</td></tr>
+          <tr><td>5</td><td><code>order_protocol</code></td><td>integer code value for order protocol(how the order was placed ie: through porter, call to restaurant, pre booked, third part etc)</td></tr>
+          <tr><td>6</td><td><code>total_items subtotal</code></td><td>final price of the order</td></tr>
+          <tr><td>7</td><td><code>num_distinct_items</code></td><td>the number of distinct items in the order</td></tr>
+          <tr><td>8</td><td><code>min_item_price</code></td><td>price of the cheapest item in the order</td></tr>
+          <tr><td>9</td><td><code>max_item_price</code></td><td>price of the costliest item in order</td></tr>
+          <tr><td>10</td><td><code>total_onshift_partners</code></td><td>number of delivery partners on duty at the time order was placed</td></tr>
+          <tr><td>11</td><td><code>total_busy_partners</code></td><td>number of delivery partners attending to other tasks</td></tr>
+          <tr><td>12</td><td><code>total_outstanding_orders</code></td><td>total number of orders to be fulfilled at the moment</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Process</h3>
+      <ul>
+        <li>Import the data and understand the structure of the data.</li>
+        <li>usual exploratory analysis steps like checking the structure &amp; characteristics of the dataset</li>
+        <li>
+          Data preprocessing
+          <ul>
+            <li>Cleaning of data</li>
+            <li>Feature engineering : creating the target column time taken in each delivery from order timestamp (<code>created_at</code>) and delivery timestamp (<code>actual_delivery_time</code>)</li>
+            <li>Getting hour of day from the order time and also the day of the week</li>
+            <li>Understanding pandas datetime data type and what function it provides by default</li>
+            <li>Get delivery time in minutes</li>
+            <li>Handling null values</li>
+            <li>Encoding categorical columns</li>
+          </ul>
+        </li>
+        <li>
+          Data visualization and cleaning
+          <ul>
+            <li>Visualize various columns for better understanding Countplots, scatterplots</li>
+            <li>Check if the data contains outliers</li>
+            <li>Removing outliers by any method</li>
+            <li>Plotting the data again to see if anything has improved</li>
+          </ul>
+        </li>
+        <li>Split the data in train and test</li>
+        <li>Creating a baseline model using random forest</li>
+        <li>Checking its various metrics like mse, rsme, mae</li>
+        <li>Scaling the data for neural networks.</li>
+        <li>Creating a simple neural network</li>
+        <li>Trying different configurations</li>
+        <li>Understanding different activation functions, optimizers and other hyperparameters.</li>
+        <li>Training the neural network for required amount of epochs</li>
+        <li>Plotting the losses and checking the accuracy of the model</li>
+        <li>Comparing the results of neural network and random forest</li>
+      </ul>
+
+      <h3>Evaluation Criteria (100 Points):</h3>
+      <ol>
+        <li>Defining problem statement, importing the data and data structure analysis (10 points)</li>
+        <li>
+          Data preprocessing and feature engineering (30 points)
+          <ol>
+            <li>Data cleaning</li>
+            <li>Null value handling</li>
+            <li>Creating the target column(time taken for delivery) from order timestamp and delivery timestamp</li>
+            <li>Getting hour and day of the week</li>
+            <li>Encoding categorical column</li>
+          </ol>
+        </li>
+        <li>
+          Data visualization and cleaning (20 points
+          <ol>
+            <li>Visualization for various features</li>
+            <li>Check for outliers</li>
+            <li>Remove outliers</li>
+            <li>Compare plots and results</li>
+          </ol>
+        </li>
+        <li>
+          Model training with random forest(10 points
+          <ol>
+            <li>Data splitting</li>
+            <li>Random forest regression</li>
+          </ol>
+        </li>
+        <li>
+          Regression with neural networks(30 points)
+          <ol>
+            <li>Data scaling</li>
+            <li>Defining nn architecture</li>
+            <li>Trying different combinations and hyperparameters</li>
+            <li>Model training</li>
+            <li>Comparing results with random forest</li>
+          </ol>
+        </li>
+      </ol>
+
+      <h3>Questions</h3>
+      <ol>
+        <li>Defining the problem statements and where can this and modifications of this be used?</li>
+        <li>List 3 functions the pandas datetime provides with one line explanation.</li>
+        <li>Short note on datetime, timedelta, timespan(period)</li>
+        <li>Why do we need to check for outliers in our data?</li>
+        <li>Name 3 outlier removal methods?</li>
+        <li>What classical machine learning methods can we use other than random forest for regression?</li>
+        <li>Why is scaling required for neural networks?</li>
+        <li>Briefly explain your choice of optimizer.</li>
+        <li>Which activation function did you use and why?</li>
+        <li>Why does a neural network perform well on a large dataset?</li>
+      </ol>
+    </section>
+
+    <!-- Stage 1 -->
+    <section class="stage-section">
+      <span class="badge">Stage 1 of 5 · 5 Tasks</span>
+      <h2>Stage 1: Problem Understanding, Data Import &amp; Structure Analysis</h2>
+      <div class="objective">
+        <strong>Objective:</strong> You will frame the business problem Porter is trying to solve, load the delivery dataset, and get familiar with its structure before making any changes to it.
+      </div>
+      <ol class="task-list">
+        <li class="task-item">
+          <div class="task-title">Task 1.1: State the business problem in your own words — what is Porter trying to predict, and why does it matter to the business? Then note one other scenario (inside or outside Porter) where a similar delivery/ETA prediction model could be reused.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about what decision this predicted number feeds into downstream, and who sees it (the customer, the driver-partner, or an internal ops team).</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 1.2: Import the dataset into your notebook environment and load it into a pandas DataFrame.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about how you'd pull a file shared via a Google Drive link directly into a Colab session, and which pandas function reads a CSV into a DataFrame.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 1.3: Inspect the structure of the data — shape, column names, and data types — and note which columns look like they will need type conversion before any feature engineering.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which columns look like text/object type but actually represent points in time.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 1.4: List three functions or accessors that pandas' datetime handling provides, with a one-line explanation of what each one does.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about the different things you'd want to do with a timestamp column — parsing it, pulling out a component of it, and taking a difference between two of them.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 1.5: Write a short note distinguishing a <code>datetime</code>, a <code>timedelta</code>, and a <code>Period</code>/timespan object.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about the difference between a single point in time, a duration between two points, and a fixed span like 'March 2024'.</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Stage 2 -->
+    <section class="stage-section">
+      <span class="badge">Stage 2 of 5 · 6 Tasks</span>
+      <h2>Stage 2: Data Preprocessing &amp; Feature Engineering</h2>
+      <div class="objective">
+        <strong>Objective:</strong> You will convert the raw timestamp columns into a usable target variable, derive new time-based features, handle missing values, and encode the categorical column so the data is model-ready.
+      </div>
+      <ol class="task-list">
+        <li class="task-item">
+          <div class="task-title">Task 2.1: Convert <code>created_at</code> and <code>actual_delivery_time</code> from object type to proper datetime type.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about the pandas function you identified in Stage 1 that parses strings into datetime objects, and confirm the conversion using <code>.info()</code>.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 2.2: Create the target column by finding the time taken for each delivery, then convert it into a single numeric value in minutes.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about what subtracting two datetime columns produces, and how you'd turn that duration into a plain number rather than a timedelta object.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 2.3: Extract the hour of day and day of week the order was placed as two new features.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which <code>.dt</code> accessors let you pull a specific component out of a datetime column.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 2.4: Drop the columns that are no longer needed now that the target and time features have been extracted.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which raw columns would now duplicate information already captured in your new features, and could leak into the model if left in.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 2.5: Check for null values across all columns and handle them appropriately.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which pandas method summarizes missing values per column, and what a reasonable default action is when nulls are a small fraction of the data.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 2.6: Encode the categorical column <code>store_primary_category</code> into a numeric form so it can be used by both models.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about how you can convert a column to a <code>category</code> dtype and then pull out its underlying integer codes.</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Stage 3 -->
+    <section class="stage-section">
+      <span class="badge">Stage 3 of 5 · 6 Tasks</span>
+      <h2>Stage 3: Data Visualization, Outlier Detection &amp; Cleaning</h2>
+      <div class="objective">
+        <strong>Objective:</strong> You will visualize relationships in the cleaned data, understand why outliers matter, detect and remove them, and confirm visually that the cleaning improved the data.
+      </div>
+      <ol class="task-list">
+        <li class="task-item">
+          <div class="task-title">Task 3.1: Visualize relationships between the target and key features — for example a correlation heatmap and scatterplots of <code>time_taken_mins</code> against <code>subtotal</code>, and <code>total_items</code> against <code>subtotal</code>.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which plot type best shows the correlation strength between many numeric columns at once, versus which best shows the relationship between two specific variables.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 3.2: Explain why it's important to check for outliers before training a model on this data.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about how a small number of extreme delivery times could disproportionately pull a regression model's error metric or its learned relationships.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 3.3: Name three methods that can be used to detect or remove outliers.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about a simple statistical rule based on quartiles, a plot-based visual method, and a model-based method that scores each point relative to its neighbors.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 3.4: Apply an outlier detection method to the data, print how many rows were flagged, and remove those rows.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about a method that can flag unusual rows across several columns at once, rather than looking at just one column in isolation.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 3.5: Re-plot the same scatterplot from Task 3.1 after removing outliers, and compare it to the original to confirm the cleaning helped.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which exact plot you produced before cleaning — reusing it after cleaning is the only way to see whether the distribution actually improved.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 3.6: Visualize order volume by day of week and hour of day, and check whether time of day affects delivery time.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which plot best shows a count/frequency by category, versus which best shows a trend across a continuous-like feature such as hour.</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Stage 4 -->
+    <section class="stage-section">
+      <span class="badge">Stage 4 of 5 · 4 Tasks</span>
+      <h2>Stage 4: Baseline Model with Random Forest</h2>
+      <div class="objective">
+        <strong>Objective:</strong> You will split the cleaned data into train and test sets, train a random forest baseline, and evaluate it thoroughly so it can act as a benchmark for the neural network.
+      </div>
+      <ol class="task-list">
+        <li class="task-item">
+          <div class="task-title">Task 4.1: Split the cleaned, encoded data into training and test sets in a reproducible way.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which <code>train_test_split</code> parameter controls the proportion held out for testing, and which one makes the split reproducible across runs.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 4.2: Train a random forest regression model as your baseline.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about which scikit-learn class implements an ensemble of decision trees for a regression target.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 4.3: Evaluate the random forest on the test set using multiple error metrics, and identify which features matter most.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about why reporting more than one error metric (magnitude in the same unit as the target, plus a normalized/percentage view) gives a fuller picture than a single number.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 4.4: Name other classical machine learning methods (besides random forest) that could be used for this regression problem.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about other regression algorithms you know that don't rely on neural networks — both linear and tree/ensemble-based.</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Stage 5 -->
+    <section class="stage-section">
+      <span class="badge">Stage 5 of 5 (Active) · 6 Tasks</span>
+      <h2>Stage 5: Regression with Neural Networks</h2>
+      <div class="objective">
+        <strong>Objective:</strong> You will scale the data, design and train a neural network regressor, check it for overfitting, and compare its performance directly against the random forest baseline.
+      </div>
+      <ol class="task-list">
+        <li class="task-item">
+          <div class="task-title">Task 5.1: Scale the feature data before feeding it into a neural network, and explain why scaling matters here but wasn't required for the random forest.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about how a neural network's gradient-based training reacts to features that are on very different numeric ranges, compared to how a tree-based model splits on raw values.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 5.2: Define a neural network architecture appropriate for this regression task, and justify your choice of activation functions.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about what activation the output layer needs for a continuous target, versus what activation is a strong general-purpose default for the hidden layers.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 5.3: Compile the model with an optimizer and loss function suited to this regression task, and briefly justify your choice of optimizer.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about the drawback of a fixed, single learning rate across all weights, and what an adaptive, per-parameter learning-rate optimizer offers instead.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 5.4: Train the network for a reasonable number of epochs, then plot training vs validation loss to check for overfitting.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about what it means for the validation loss to track closely with (or stay below) the training loss over the course of training.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 5.5: Evaluate the trained network on the test set using the same set of metrics used for the random forest, and directly compare the two models' results.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about why using the exact same metrics as your baseline is necessary in order to make a fair, direct comparison.</div>
+        </li>
+        <li class="task-item">
+          <div class="task-title">Task 5.6: Explain why neural networks tend to perform well as dataset size grows.</div>
+          <div class="task-hint"><strong>Hint:</strong> Think about the relationship between the number of learnable parameters in a network and the amount of data needed to estimate them reliably without overfitting.</div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Notebook Workspace -->
+    <section>
+      <span class="badge">Environment &amp; Controls</span>
+      <h2>Notebook Workspace</h2>
+      <p><strong>Runtime Environment:</strong> Python 3 (BigQuery)</p>
+      <p><strong>Toolbar Actions:</strong> <code>+ Code</code> · <code>+ Text</code> · <code>Run all</code> · <code>Run above</code> · <code>Run below</code> · <code>Upload</code> · <code>Import</code> · <code>Export ▾</code> · <code>Files</code> · <code>Shortcuts</code> · <code>Reset</code></p>
+      <p><strong>Notebook Status:</strong> Empty notebook cell ready (<code>[ ] Start coding or take help with AI companion</code>)</p>
+    </section>
+  </div>
+</body>
+</html>
